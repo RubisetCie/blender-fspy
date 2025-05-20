@@ -1,5 +1,5 @@
-# fSpy Blender importer
-# Copyright (C) 2018 - Per Gantelius
+# fSpy Blender Importer
+# Copyright (C) 2018-2025 Per Gantelius, yyc12345
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

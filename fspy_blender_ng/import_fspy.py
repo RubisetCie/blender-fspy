@@ -1,5 +1,5 @@
-# fSpy Blender importer
-# Copyright (C) 2018 - Per Gantelius
+# fSpy Blender Importer
+# Copyright (C) 2018-2025 Per Gantelius, yyc12345
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ from bpy.types import Operator
 
 from . import fspy
 
-class ImportfSpyProject(Operator, ImportHelper):
+class FSPYBLD_OT_import_fspy(Operator, ImportHelper):
     """Imports the background image and camera parameters from an fSpy project file"""
     bl_idname = "fspy_blender.import_project"
     bl_label = "Import fSpy project file"

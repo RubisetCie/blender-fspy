@@ -1,3 +1,7 @@
-*.pyc
+## ===== Personal =====
+# Ignore VSCode
+.vscode/
+
+# Ignore macOS shit
 .DS_Store
-dist
+
