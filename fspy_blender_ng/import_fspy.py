@@ -16,29 +16,27 @@
 
 import bpy
 import mathutils
+import bpy_extras.io_utils
+import tempfile
+import pathlib
 import os
 import uuid
+import fspy
 
-from bpy_extras.io_utils import ImportHelper
-from bpy.props import StringProperty, BoolProperty, EnumProperty
-from bpy.types import Operator
-
-from . import fspy
-
-class FSPYBLD_OT_import_fspy(Operator, ImportHelper):
+class FSPYBLD_OT_import_fspy(bpy.types.Operator, bpy_extras.io_utils.ImportHelper):
     """Imports the background image and camera parameters from an fSpy project file"""
-    bl_idname = "fspy_blender.import_project"
+    bl_idname = "fspybld.import_fspy"
     bl_label = "Import fSpy project file"
 
     filename_ext = ".fspy"
 
-    filter_glob : StringProperty(
+    filter_glob: bpy.props.StringProperty(
         default = "*.fspy",
         options = { 'HIDDEN' },
         maxlen= 255
-    )
+    ) # type: ignore
 
-    update_existing_camera : BoolProperty(
+    update_existing_camera: bpy.props.BoolProperty(
         name="Update existing import (if any)",
         description=(
             "If a camera and background image matching "
@@ -46,16 +44,16 @@ class FSPYBLD_OT_import_fspy(Operator, ImportHelper):
             "them instead of creating new objects"
         ),
         default=True
-    )
+    ) # type: ignore
 
-    import_background_image : BoolProperty(
+    import_background_image: bpy.props.BoolProperty(
         name="Import background image",
         description=(
             "Set the image from the fSpy project "
             "file as the camera background image"
         ),
         default=True
-    )
+    ) # type: ignore
 
     def execute(self, context):
         return self.import_fpsy_project(

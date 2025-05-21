@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import os
 import json
 import struct
 import enum
@@ -75,16 +74,14 @@ class Project:
             # Check magic word at file header.
             gotten_magic_word = project_file.read(len(Project.MAGIC_WORD))
             if gotten_magic_word != Project.MAGIC_WORD:
-                raise ParseError(
-                    "Trying to import a file that is not an fSpy project")
+                raise ParseError('Trying to import a file that is not an fSpy project')
 
             # Check file version
             gotten_file_ver: int
             (gotten_file_ver, ) = Project.FILE_VER_PACKER.unpack(
                 project_file.read(Project.FILE_VER_PACKER.size))
             if gotten_file_ver != Project.FILE_VER:
-                raise ParseError(
-                    f'Unsupported fSpy project file version {gotten_file_ver}')
+                raise ParseError(f'Unsupported fSpy project file version {gotten_file_ver}')
             
             # Extract size info
             state_string_size: int
@@ -92,19 +89,19 @@ class Project:
             (state_string_size, image_buffer_size) = Project.PART_SIZE_PACKER.unpack(
                  project_file.read(Project.PART_SIZE_PACKER.size))
             if image_buffer_size == 0:
-                raise ParseError("Trying to import an fSpy project with no image data")
+                raise ParseError('Trying to import an fSpy project with no image data')
             
             # Read 2 parts respectively
             state_string: dict[str, typing.Any] = json.loads(project_file.read(state_string_size))
             image_buffer = project_file.read(image_buffer_size)
             if len(image_buffer) != image_buffer_size:
-                raise ParseError("Fail to read image data within given fSpy project")
+                raise ParseError('Fail to read image data within given fSpy project')
 
             # Parse read state string
             # Fetch camera parameters
             json_camera_parameters: dict[str, typing.Any] | None = state_string['cameraParameters']
             if json_camera_parameters is None:
-                raise ParseError("Trying to import an fSpy project without camera parameters")
+                raise ParseError('Trying to import an fSpy project without camera parameters')
             self.camera_parameters = CameraParameters(json_camera_parameters)
             # Fetch reference distance unit
             json_calibration_settings_base: dict[str, typing.Any] = state_string['calibrationSettingsBase']

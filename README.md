@@ -77,3 +77,11 @@ This plugin only supports Blender LTS version. I will only update this plugin on
 Once a new LTS version is released for Blender, the old version is no longer supported. All new features and bug fixes (including those that are fatal) will only be accessible in the new Blender LTS.
 
 The obvious truth is that I can't serve this addon immortally. I'll try to keep updating this addon as long as I'm still using Blender. If that day comes, I will archive this repository to tell you explicitly.
+
+## How to Test?
+
+Navigate to the root of this repository, and execute `python3 test/test.py` directly.
+
+## How to Pack Release?
+
+TODO...
