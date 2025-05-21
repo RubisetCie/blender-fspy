@@ -1,0 +1,5 @@
+# Test assets are binary file
+test/*.json     binary
+*.fspy          binary
+# Doc images are binary file
+*.png           binary
