@@ -20,7 +20,7 @@ import bpy_extras.io_utils
 import tempfile
 import pathlib
 import typing
-import fspy
+from . import fspy
 
 class FSPYBLD_OT_import_fspy(bpy.types.Operator, bpy_extras.io_utils.ImportHelper):
     """Imports the background image and camera parameters from an fSpy project file"""
@@ -104,7 +104,12 @@ def find_or_create_camera(project: fspy.Project, update_existing_camera: bool) -
         # Set the camera name to match the name of the project file
         camera_data = bpy.data.cameras.new(camera_name)
         camera_object = bpy.data.objects.new(camera_name, camera_data)
-    
+        # Add into active scene
+        view_layer = bpy.context.view_layer
+        active_layer_collection = typing.cast(bpy.types.LayerCollection, view_layer.active_layer_collection)
+        collection = active_layer_collection.collection
+        collection.objects.link(camera_object)
+
     return typing.cast(bpy.types.Object, camera_object)
 
 
@@ -151,7 +156,9 @@ def set_render_resolution(project: fspy.Project) -> None:
     render_settings.resolution_y = project.camera_parameters.image_height
 
 
-def find_or_create_image(project: fspy.Project, bg_images: bpy.types.CameraBackgroundImages, update_existing_camera: bool) -> bpy.types.CameraBackgroundImage:
+def find_or_create_image(
+        project: fspy.Project, bg_images: bpy.types.CameraBackgroundImages,
+        update_existing_camera: bool) -> bpy.types.CameraBackgroundImage:
     """
     Find or create new image slot for camera background images.
     """
@@ -192,7 +199,7 @@ def load_fspy_image_data(project: fspy.Project) -> bpy.types.Image:
         temp_file = pathlib.Path(temp_folder) / 'fspy-temp-image'
         with temp_file.open('wb') as temp_file_writer:
             temp_file_writer.write(project.image_data)
-            
+
         # Load background image data from temp file
         image = bpy.data.images.load(str(temp_file))
         image.name = project.file_name
@@ -203,14 +210,16 @@ def load_fspy_image_data(project: fspy.Project) -> bpy.types.Image:
     return image
 
 
-def setup_3d_area(project: fspy.Project, camera: bpy.types.Object, update_existing_camera: bool, import_background_image: bool):
+def setup_3d_area(project: fspy.Project, camera: bpy.types.Object,
+                  update_existing_camera: bool,
+                  import_background_image: bool) -> None:
     # Find the first 3D view area and set its background image
     def find_first_3d_view_area() -> bpy.types.SpaceView3D | None:
         for area in bpy.context.screen.areas:
             if area.type == 'VIEW_3D':
                 return typing.cast(bpy.types.SpaceView3D | None, area.spaces.active)
         return None
-            
+
     space_data = find_first_3d_view_area()
     if space_data is None: return
     camera_data = typing.cast(bpy.types.Camera, camera.data)
@@ -243,7 +252,8 @@ def setup_3d_area(project: fspy.Project, camera: bpy.types.Object, update_existi
         bg_image.image = load_fspy_image_data(project)
 
 
-def set_reference_distance_unit(project: fspy.Project, camera: bpy.types.Object) -> None:
+def set_reference_distance_unit(project: fspy.Project,
+                                camera: bpy.types.Object) -> None:
     scene = bpy.context.scene
     unit_settings = scene.unit_settings
 
