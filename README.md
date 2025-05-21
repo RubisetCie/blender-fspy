@@ -84,4 +84,4 @@ Navigate to the root of this repository, and execute `python3 test/test.py` dire
 
 ## How to Pack Release?
 
-TODO...
+Navigate to the root of this repository, then enter `fspy_blender_ng` directory, open command line prompt and execute `blender --command extension build` directly. You will find `fspy_blender_ng-x.x.x.zip` in your work directory. That's the final release package.

@@ -5,6 +5,9 @@
 # Ignore macOS shit
 .DS_Store
 
+# Ignore packed Blender extensions
+*.zip
+
 ## ===== Python =====
 # Byte-compiled / optimized / DLL files
 __pycache__/
