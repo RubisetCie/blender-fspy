@@ -70,7 +70,6 @@ files = "Import fSpy project file from disk"
 # https://docs.blender.org/manual/en/dev/advanced/extensions/command_line_arguments.html#command-line-args-extension-build
 [build]
 paths = [
-  "blender_manifest.toml",
   "__init__.py",
   "import_fspy.py",
   "fspy.py",
