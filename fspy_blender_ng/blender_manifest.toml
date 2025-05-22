@@ -9,7 +9,7 @@ id = "fspy_blender_ng"
 version = "2.0.0"
 name = "fSpy Importer"
 tagline = "Import image and camera settings from fSpy project"
-maintainer = "yyc12345 <yyc12321@outlook.com>"
+maintainer = "Per Gantelius, yyc12345 <yyc12321@outlook.com>"
 # Supported types: "add-on", "theme"
 type = "add-on"
 
@@ -69,8 +69,9 @@ files = "Import fSpy project file from disk"
 # Optional: build settings.
 # https://docs.blender.org/manual/en/dev/advanced/extensions/command_line_arguments.html#command-line-args-extension-build
 [build]
-paths_exclude_pattern = [
-  "__pycache__/", # Python runtime cache
-  ".gitignore", # Git Ignore File
-  "*.md", # Useless document.
+paths = [
+  "blender_manifest.toml",
+  "__init__.py",
+  "import_fspy.py",
+  "fspy.py",
 ]

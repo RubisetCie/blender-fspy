@@ -1,72 +1,38 @@
 # fSpy Blender Addon - Next Generation
 
-## What's This?
+## Introduction
 
-This is a fork of official [fSpy](https://fspy.io) importer addon of [Blender](https://blender.org).
+This is a **FORK** of [official fSpy importer addon for Blender](https://github.com/stuffmatic/fSpy-Blender).
 
-<!--
-This is the official [fSpy](https://fspy.io) importer add-on for .
+## User Manual
 
-There are two images below show an fSpy project (top) and a matching Blender camera created by the importer (bottom).
+### Install Addon
 
-![An example fSpy project](readme_images/help_fspy.jpg)
+1. Download the latest stable version of this plugin in Release page of this repository.
+1. Open the preferences window by selecting `Preferences` from the `Edit` menu in Blender.
+1. Select the `Add-ons` tab and press the button with "V" icon at top-right corner. In expanded menu, click `Install from Disk...`.
+1. In pop-up window, select your downloaded zip file, and click `Install from Disk` button.
+1. Locate the `fSpy Importer` in the add-on list and enable it by pressing the checkbox.
 
-![A matching Blender camera](readme_images/help_blender.jpg)
--->
+> [!WARNING]  
+> If you're using Safari, make sure you __download the add-on by right clicking and choosing "Download Linked File"__. This prevents the downloaded file from getting unzipped automatically.
 
-## Differences with Official One
+### Addon Usage
 
-This repository is still work in progress.
+Once the add-on is installed and activated, fSpy project files can be imported by selecting `fSpy (.fspy)` from the `File > Import` menu. This will create a camera with the same name as the imported project file.
 
-The official fSpy plugin looks like it hasn't been updated in a long time (although all features are functional, there could have been no updates). It's still working but not good with contemporary Blender. So I create this fork to make it have "at least" compatibility with latest LTS Blender.
+When importing fSpy project file, there are some options listed hereinafter can be configured at the right side panel in import window.
 
-I don't want to take any place of official fSpy Blender addon, so I add a `NG` suffix meaning "next generation".
+* `Update existing import (if any)`: If checked, any previously created camera with a name matching the project filename will be updated. If unchecked, a new camera will be created on each import. 
+* `Import background image`: If checked, the image from the fSpy project file will be used as the background image for the Blender camera.
 
-<!--
-# Getting started
+## Differences with Official
 
-## 1. Download the add-on
+The official fSpy plugin looks like it hasn't been updated in a long time (although all features are functional, it's okay without an update). It's still working but not good with contemporary Blender. So I create this fork to make it use latest Blender LTS suggested solution.
 
-[Download the latest version](https://github.com/stuffmatic/fSpy-Blender/releases/latest) (make sure you download the file called `fSpy-Blender-x.y.z.zip`).
+I don't want to take any place of official fSpy Blender addon, so I add a `NG` suffix meaning "next generation". And this fork will not be merged into upstream repository (I mean I will not open any PR in upstream repository).
 
-### ⚠️ __Important note for mac users__ ⚠️
-
-If you're using Safari, make sure you __download the add-on by right clicking and choosing "Download Linked File"__. This prevents the downloaded file from getting unzipped automatically.
-
-## 2. Install the add-on
-
-Open the preferences window by selecting Preferences from the Edit menu
-
-![Edit -> Preferences](readme_images/help_edit_preferences.png)
-
-Select the _Add-ons_ tab and press the _Install_ button
-
-![Install add-on](readme_images/help_addons_install.png)
-
-Select the downloaded zip-file and press _Install Add-on from file_
-
-![Select the zip file](readme_images/help_select_zip.png)
-
-Locate the fSpy importer in the add-on list and enable it by pressing the checkbox.
-
-![Enable add-on](readme_images/help_enable_addon.png)
-
-## 3. Import an fSpy project file
-
-Once the add-on is installed and activated, fSpy project files can be imported by selecting _fSpy_ from the _Import_ menu. This will create a camera with the same name as the imported project file.
-
-![Import menu](readme_images/help_import_menu.png)
-
-### Import settings
-
-At the bottom left in the importer's file browser, there is a panel with import settings.
-
-![Import settings](readme_images/help_import_settings.png)
-
-__Update existing import (if any)__ - If checked, any previously created camera with a name matching the project filename will be updated. If unchecked, a new camera will be created on each import. 
-
-__Import background image__ - If checked, the image from the fSpy project file will be used as the background image for the Blender camera.
--->
+I COULD upload this plugin into official Blender extension gallery so that everyone can install it more convenient, but I will NOT do that because most of these code are not done by myself and this behavior may be seen as less ethical, even though it is allowed by the license.
 
 ## Lifetime Principle
 
@@ -78,10 +44,10 @@ Once a new LTS version is released for Blender, the old version is no longer sup
 
 The obvious truth is that I can't serve this addon immortally. I'll try to keep updating this addon as long as I'm still using Blender. If that day comes, I will archive this repository to tell you explicitly.
 
-## How to Test?
+## Test Instruction
 
 Navigate to the root of this repository, and execute `python3 test/test.py` directly.
 
-## How to Pack Release?
+## Build Instruction
 
 Navigate to the root of this repository, then enter `fspy_blender_ng` directory, open command line prompt and execute `blender --command extension build` directly. You will find `fspy_blender_ng-x.x.x.zip` in your work directory. That's the final release package.
