@@ -51,7 +51,7 @@ class CameraParameters:
         self.principal_point = (json_principal_point['x'], json_principal_point['y'])
         self.fov_horiz = json_camera_parameters['horizontalFieldOfView']
         json_camera_transform: dict[str, list[list[float]]] = json_camera_parameters['cameraTransform']
-        self.camera_transfrom = tuple(map(lambda v: tuple(v), json_camera_transform['rows']))
+        self.camera_transfrom = tuple(map(lambda v: tuple(v), json_camera_transform['rows'])) # type: ignore
         self.image_width = json_camera_parameters['imageWidth']
         self.image_height = json_camera_parameters['imageHeight']
 

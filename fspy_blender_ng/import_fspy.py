@@ -35,21 +35,14 @@ class FSPYBLD_OT_import_fspy(bpy.types.Operator, bpy_extras.io_utils.ImportHelpe
     ) # type: ignore
 
     update_existing_camera: bpy.props.BoolProperty(
-        name="Update existing import (if any)",
-        description="""
-        If a camera and background image matching 
-        the project file name already exist, update 
-        them instead of creating new objects
-        """,
+        name="Update Existing Import",
+        description="If a camera and background image matching the project file name already exist, update them instead of creating new objects",
         default=True
     ) # type: ignore
 
     import_background_image: bpy.props.BoolProperty(
-        name="Import background image",
-        description="""
-        Set the image from the fSpy project 
-        file as the camera background image
-        """,
+        name="Import Background Image",
+        description="Set the image from the fSpy project file as the camera background image",
         default=True
     ) # type: ignore
 
