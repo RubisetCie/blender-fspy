@@ -21,6 +21,7 @@ import tempfile
 import pathlib
 import typing
 from . import fspy
+from . import fspy_properties
 
 class FSPYBLD_OT_import_fspy(bpy.types.Operator, bpy_extras.io_utils.ImportHelper):
     """Imports the background image and camera parameters from an fSpy project file"""
@@ -139,8 +140,9 @@ def setup_camera(project: fspy.Project, camera: bpy.types.Object) -> None:
     camera_data.shift_x = x_shift_scale * (0.5 - pp_rel[0])
     camera_data.shift_y = y_shift_scale * (-0.5 + pp_rel[1])
 
-    camera.data.fspy.use_fspy = True
-    camera.data.fspy.reference_dimensions = (
+    camera_properties = fspy_properties.get_fspy_properties(camera_data)
+    camera_properties.fspy_imported = True
+    camera_properties.image_resolution = (
         camera_parameters.image_width,
         camera_parameters.image_height
     )
@@ -298,20 +300,8 @@ def set_reference_distance_unit(project: fspy.Project,
         unit_settings.system = 'NONE'
         unit_settings.scale_length = 1.0
 
-class SetRenderDimensions(Operator):
-    """Set the dimensions of the render to the dimensions of the
-    reference image that was used for this camera"""
-    bl_idname = "fspy_blender.set_render_dimensions"
-    bl_label = "Set Render Dimensions"
+def register():
+    bpy.utils.register_class(FSPYBLD_OT_import_fspy)
 
-    @classmethod
-    def poll(cls, context):
-        return context.active_object.type == 'CAMERA'
-
-    def execute(self, context):
-        scene = context.scene
-        cam = context.active_object.data
-        w, h = cam.fspy.reference_dimensions
-        scene.render.resolution_x = w
-        scene.render.resolution_y = h
-        return {'FINISHED'}
+def unregister():
+    bpy.utils.unregister_class(FSPYBLD_OT_import_fspy)

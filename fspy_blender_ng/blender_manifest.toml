@@ -71,6 +71,8 @@ files = "Import fSpy project file from disk"
 [build]
 paths = [
   "__init__.py",
-  "import_fspy.py",
   "fspy.py",
+  "fspy_importer.py",
+  "fspy_panel.py",
+  "fspy_properties.py",
 ]

@@ -22,38 +22,37 @@ if "bpy" in locals():
     import importlib
     if 'fspy' in locals():
         importlib.reload(fspy)  # type: ignore
-    if 'import_fspy' in locals():
-        importlib.reload(import_fspy)  # type: ignore
-    if 'properties' in locals():
-        importlib.reload(properties)  # type: ignore
-    if 'panel' in locals():
-        importlib.reload(panel)  # type: ignore
+    if 'fspy_importer' in locals():
+        importlib.reload(fspy_importer)  # type: ignore
+    if 'fspy_properties' in locals():
+        importlib.reload(fspy_properties)  # type: ignore
+    if 'fspy_panel' in locals():
+        importlib.reload(fspy_panel)  # type: ignore
 
-from . import import_fspy
 from . import fspy
-from . import properties
-from . import fspy
+from . import fspy_importer
+from . import fspy_properties
+from . import fspy_panel
 
 
 def menu_func_import(self, context):
-    self.layout.operator(import_fspy.FSPYBLD_OT_import_fspy.bl_idname,
+    self.layout.operator(fspy_importer.FSPYBLD_OT_import_fspy.bl_idname,
                          text="fSpy (.fspy)")
 
 
 def register():
-    properties.register()
-    bpy.utils.register_class(import_fspy.FSPYBLD_OT_import_fspy)
-    bpy.utils.register_class(addon.SetRenderDimensions)
-    panel.register()
+    fspy_properties.register()
+    fspy_panel.register()
+    fspy_importer.register()
     bpy.types.TOPBAR_MT_file_import.append(menu_func_import)
 
 
 def unregister():
-    panel.unregister()
     bpy.types.TOPBAR_MT_file_import.remove(menu_func_import)
-    bpy.utils.unregister_class(import_fspy.FSPYBLD_OT_import_fspy)
-    bpy.utils.unregister_class(addon.SetRenderDimensions)
-    properties.unregister()
+    fspy_importer.unregister()
+    fspy_panel.unregister()
+    fspy_properties.unregister()
+
 
 if __name__ == "__main__":
     register()
