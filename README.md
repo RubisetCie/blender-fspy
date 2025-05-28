@@ -23,8 +23,8 @@ Once the add-on is installed and activated, fSpy project files can be imported b
 
 When importing fSpy project file, there are some options listed hereinafter can be configured at the right side panel in import window.
 
-* `Update existing import (if any)`: If checked, any previously created camera with a name matching the project filename will be updated. If unchecked, a new camera will be created on each import. 
-* `Import background image`: If checked, the image from the fSpy project file will be used as the background image for the Blender camera.
+* `Update Existing Import`: If checked, any previously created camera with a name matching the project filename will be updated. If unchecked, a new camera will be created on each import. 
+* `Import Background Image`: If checked, the image from the fSpy project file will be used as the background image for the Blender camera.
 
 ## Differences with Official
 
