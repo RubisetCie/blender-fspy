@@ -26,6 +26,8 @@ When importing fSpy project file, there are some options listed hereinafter can 
 * `Update Existing Import`: If checked, any previously created camera with a name matching the project filename will be updated. If unchecked, a new camera will be created on each import. 
 * `Import Background Image`: If checked, the image from the fSpy project file will be used as the background image for the Blender camera.
 
+If you are using multiple cameras with different reference image sizes, you can quickly switch from one render resolution to another using the `Set Render Dimensions` button in the fSpy panel.
+
 ## Differences with Official
 
 The official fSpy plugin looks like it hasn't been updated in a long time (although all features are functional, it's okay without an update). It's still working but not good with contemporary Blender. So I create this fork to make it use latest Blender LTS suggested solution.

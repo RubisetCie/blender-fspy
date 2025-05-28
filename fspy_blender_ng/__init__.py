@@ -24,8 +24,14 @@ if "bpy" in locals():
         importlib.reload(fspy)  # type: ignore
     if 'import_fspy' in locals():
         importlib.reload(import_fspy)  # type: ignore
+    if 'properties' in locals():
+        importlib.reload(properties)  # type: ignore
+    if 'panel' in locals():
+        importlib.reload(panel)  # type: ignore
 
 from . import import_fspy
+from . import fspy
+from . import properties
 from . import fspy
 
 
@@ -35,14 +41,19 @@ def menu_func_import(self, context):
 
 
 def register():
+    properties.register()
     bpy.utils.register_class(import_fspy.FSPYBLD_OT_import_fspy)
+    bpy.utils.register_class(addon.SetRenderDimensions)
+    panel.register()
     bpy.types.TOPBAR_MT_file_import.append(menu_func_import)
 
 
 def unregister():
+    panel.unregister()
     bpy.types.TOPBAR_MT_file_import.remove(menu_func_import)
     bpy.utils.unregister_class(import_fspy.FSPYBLD_OT_import_fspy)
-
+    bpy.utils.unregister_class(addon.SetRenderDimensions)
+    properties.unregister()
 
 if __name__ == "__main__":
     register()
