@@ -20,6 +20,15 @@ import typing
 FSPY_PROPERTIES_NAME: str = 'fspy'
 
 
+class FspyProperties:
+    fspy_imported: bool
+    image_resolution: tuple[int, int]
+
+    def __init__(self) -> None:
+        self.fspy_imported = False
+        self.image_resolution = (0, 0)
+
+
 class FSPYBLD_PG_fspy_properties(bpy.types.PropertyGroup):
     fspy_imported: bpy.props.BoolProperty(
         name="fSpy Imported",
@@ -38,9 +47,31 @@ class FSPYBLD_PG_fspy_properties(bpy.types.PropertyGroup):
     )  # type: ignore
 
 
-def get_fspy_properties(camera: bpy.types.Camera) -> FSPYBLD_PG_fspy_properties:
+def get_inner_fspy_properties(
+        camera: bpy.types.Camera) -> FSPYBLD_PG_fspy_properties:
     return typing.cast(FSPYBLD_PG_fspy_properties,
                        getattr(camera, FSPY_PROPERTIES_NAME))
+
+
+def get_fspy_properties(camera: bpy.types.Camera) -> FspyProperties:
+    properties = get_inner_fspy_properties(camera)
+
+    rv = FspyProperties()
+    rv.fspy_imported = properties.fspy_imported
+    rv.image_resolution = (
+        properties.image_resolution[0],
+        properties.image_resolution[1],
+    )
+
+    return rv
+
+
+def set_fspy_properties(camera: bpy.types.Camera,
+                        data: FspyProperties) -> None:
+    properties = get_inner_fspy_properties(camera)
+
+    properties.fspy_imported = data.fspy_imported
+    properties.image_resolution = data.image_resolution
 
 
 def register():

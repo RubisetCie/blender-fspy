@@ -27,6 +27,7 @@ class FSPYBLD_OT_import_fspy(bpy.types.Operator, bpy_extras.io_utils.ImportHelpe
     """Imports the background image and camera parameters from an fSpy project file"""
     bl_idname = "fspybld.import_fspy"
     bl_label = "Import fSpy project file"
+    bl_options = {'PRESET', 'UNDO'}
 
     filename_ext=".fspy"
     filter_glob: bpy.props.StringProperty(
@@ -140,12 +141,13 @@ def setup_camera(project: fspy.Project, camera: bpy.types.Object) -> None:
     camera_data.shift_x = x_shift_scale * (0.5 - pp_rel[0])
     camera_data.shift_y = y_shift_scale * (-0.5 + pp_rel[1])
 
-    camera_properties = fspy_properties.get_fspy_properties(camera_data)
+    camera_properties = fspy_properties.FspyProperties()
     camera_properties.fspy_imported = True
     camera_properties.image_resolution = (
         camera_parameters.image_width,
         camera_parameters.image_height
     )
+    fspy_properties.set_fspy_properties(camera_data, camera_properties)
 
 def set_render_resolution(project: fspy.Project) -> None:
     """

@@ -19,6 +19,19 @@ import typing
 from . import fspy_properties
 
 
+def is_valid_camera(context: bpy.types.Context) -> bool:
+    # Check whether there is camera in context.
+    camera = context.camera
+    if camera is None:
+        return False
+    # Check whether this camera is imported by fSpy.
+    camera_properties = fspy_properties.get_fspy_properties(camera)
+    if not camera_properties.fspy_imported:
+        return False
+    # Okey
+    return True
+
+
 class FSPYBLD_PT_fspy_properties(bpy.types.Panel):
     bl_label = "fSpy"
     bl_idname = "FSPYBLD_PT_fspy_properties"
@@ -28,15 +41,7 @@ class FSPYBLD_PT_fspy_properties(bpy.types.Panel):
 
     @classmethod
     def poll(cls, context):
-        camera = context.camera
-        if camera is None:
-            return False
-
-        camera_properties = fspy_properties.get_fspy_properties(camera)
-        if not camera_properties.fspy_imported:
-            return False
-
-        return True
+        return is_valid_camera(context)
 
     def draw(self, context):
         layout = self.layout
@@ -49,33 +54,21 @@ class FSPYBLD_PT_fspy_properties(bpy.types.Panel):
         layout.enabled = False
         layout.use_property_split = True
         camera = typing.cast(bpy.types.Camera, context.camera)
-        camera_properties = fspy_properties.get_fspy_properties(camera)
+        camera_properties = fspy_properties.get_inner_fspy_properties(camera)
         layout.prop(camera_properties, 'image_resolution')
 
 
 class FSPYBLD_OT_set_render_resolution(bpy.types.Operator):
-    # TODO: bad description
-    """
-    Set the resolution of the render to the resolution of the
-    reference image that was used for this camera.
-    """
+    """ Set the resolution of the render to the resolution of the reference image that was used for this camera."""
     bl_idname = "fspybld.set_render_resolution"
     bl_label = "Set Render Resolution"
+    bl_options = {'UNDO'}
 
     @classmethod
     def poll(cls, context):
-        camera = context.camera
-        if camera is None:
-            return False
-
-        camera_properties = fspy_properties.get_fspy_properties(camera)
-        if not camera_properties.fspy_imported:
-            return False
-
-        return True
+        return is_valid_camera(context)
 
     def execute(self, context):
-        # TODO: fix bad code
         camera = typing.cast(bpy.types.Camera, context.camera)
         camera_properties = fspy_properties.get_fspy_properties(camera)
         render_settings = bpy.context.scene.render
