@@ -149,6 +149,7 @@ def setup_camera(project: fspy.Project, camera: bpy.types.Object) -> None:
     )
     fspy_properties.set_fspy_properties(camera_data, camera_properties)
 
+
 def set_render_resolution(project: fspy.Project) -> None:
     """
     Sets the render resolution to match the project image
@@ -164,31 +165,30 @@ def find_or_create_image(
     """
     Find or create new image slot for camera background images.
     """
+    # Find existing image in background image collection.
     image_name = project.file_name
-
     existing_bg_image: bpy.types.CameraBackgroundImage | None = None
-    for bg_image in bg_images:
-        inner = bg_image.image
-        if inner is None:
-            continue
-        if inner.name == image_name:
-            existing_bg_image = bg_image
-            break
 
-    # Check whether we need create new camera
-    create_new_image_slot = False
-    # If there is no existing camera, create new.
-    if existing_bg_image is None: create_new_image_slot = True
-    # If user do not need update current background, create new.
-    elif not update_existing_camera: create_new_image_slot = True
-    # Okey, use existing one.
-    else: pass
+    # Only perform finding if "update existing camera" requested
+    if update_existing_camera:
+        for bg_image in bg_images:
+            inner = bg_image.image
+            if inner is None:
+                continue
+            if inner.name == image_name:
+                # We found image we expected.
+                # Clear its associated image so that we can have a new image with same name.
+                bg_image.image = None
+                bpy.data.images.remove(inner)
+                # And set it for return value.
+                existing_bg_image = bg_image
+                break
 
-    # Create new image slot if necessary
-    if create_new_image_slot:
+    # Create new image slot if necessary.
+    if existing_bg_image is None:
         existing_bg_image = bg_images.new()
 
-    return typing.cast(bpy.types.CameraBackgroundImage, existing_bg_image)
+    return existing_bg_image
 
 
 def load_fspy_image_data(project: fspy.Project) -> bpy.types.Image:
