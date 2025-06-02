@@ -75,6 +75,26 @@ class ImporterError(Exception):
     pass
 
 
+def add_into_scene(instance: bpy.types.Object) -> None:
+    """
+    Add given Blender object into active scene.
+    """
+    view_layer = bpy.context.view_layer
+    collection = view_layer.active_layer_collection.collection # type: ignore
+    collection.objects.link(instance)
+
+
+def select_object(instance: bpy.types.Object) -> None:
+    """
+    Set given object as active object and the only selected object.
+    """
+    # Deselect all first
+    bpy.ops.object.select_all(action = 'DESELECT')
+    # Select self and set self as active object
+    instance.select_set(True)
+    bpy.context.view_layer.objects.active = instance
+
+
 def find_or_create_camera(project: fspy.Project, update_existing_camera: bool) -> bpy.types.Object:
     """
     Finds or creates a suitable camera in Blender.
@@ -83,29 +103,28 @@ def find_or_create_camera(project: fspy.Project, update_existing_camera: bool) -
     camera_name = project.file_name
     camera_object: bpy.types.Object | None = bpy.data.objects.get(camera_name, None)
 
-    # Check whether we need create new camera
-    create_new_camera = False
     # If there is no existing camera, create new.
-    if camera_object is None: create_new_camera = True
+    if camera_object is None: pass
     # If user do not need update current camera, create new.
-    elif not update_existing_camera: create_new_camera = True
+    elif not update_existing_camera: camera_object = None
     # If existing camera object is not camera, create new.
-    elif camera_object.type != 'CAMERA': create_new_camera = True
+    elif camera_object.type != 'CAMERA': camera_object = None
     # Okey, use existing one.
     else: pass
 
     # Create new camera if necessary
-    if create_new_camera:
+    if camera_object is None:
         # Set the camera name to match the name of the project file
         camera_data = bpy.data.cameras.new(camera_name)
         camera_object = bpy.data.objects.new(camera_name, camera_data)
         # Add into active scene
-        view_layer = bpy.context.view_layer
-        active_layer_collection = typing.cast(bpy.types.LayerCollection, view_layer.active_layer_collection)
-        collection = active_layer_collection.collection
-        collection.objects.link(camera_object)
+        add_into_scene(camera_object)
 
-    return typing.cast(bpy.types.Object, camera_object)
+    # Select fetched camera
+    select_object(camera_object)
+
+    # Return fetched camera
+    return camera_object
 
 
 def setup_camera(project: fspy.Project, camera: bpy.types.Object) -> None:
