@@ -19,6 +19,8 @@ This is a **FORK** of [official fSpy importer addon for Blender](https://github.
 
 ### Addon Usage
 
+#### Import Camera
+
 Once the add-on is installed and activated, fSpy project files can be imported by selecting `fSpy (.fspy)` from the `File > Import` menu. This will create a camera with the same name as the imported project file.
 
 When importing fSpy project file, there are some options listed hereinafter can be configured at the right side panel in import window.
@@ -26,7 +28,11 @@ When importing fSpy project file, there are some options listed hereinafter can 
 * `Update Existing Import`: If checked, any previously created camera with a name matching the project filename will be updated. If unchecked, a new camera will be created on each import. 
 * `Import Background Image`: If checked, the image from the fSpy project file will be used as the background image for the Blender camera.
 
-If you are using multiple cameras with different reference image sizes, you can quickly switch from one render resolution to another using the `Set Render Dimensions` button in the fSpy panel.
+#### Switch between Multiple Cameras
+
+For each this plugin imported fSpy camera, you can get a panel called `fSpy` in camera data properties window. In this panel, you can see some properties of this imported camera, such as its corresponding image resolution.
+
+If you are using multiple cameras with different reference image sizes, you can quickly switch from one render resolution to another using the `Set Render Resolution` button in this panel.
 
 ## Differences with Official
 
