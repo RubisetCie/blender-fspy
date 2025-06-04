@@ -82,7 +82,7 @@ class Project:
                 project_file.read(Project.FILE_VER_PACKER.size))
             if gotten_file_ver != Project.FILE_VER:
                 raise ParseError(f'Unsupported fSpy project file version {gotten_file_ver}')
-            
+
             # Extract size info
             state_string_size: int
             image_buffer_size: int
@@ -90,7 +90,7 @@ class Project:
                  project_file.read(Project.PART_SIZE_PACKER.size))
             if image_buffer_size == 0:
                 raise ParseError('Trying to import an fSpy project with no image data')
-            
+
             # Read 2 parts respectively
             state_string: dict[str, typing.Any] = json.loads(project_file.read(state_string_size))
             image_buffer = project_file.read(image_buffer_size)

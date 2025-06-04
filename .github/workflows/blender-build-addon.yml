@@ -1,0 +1,26 @@
+name: Build Blender Addon
+on: workflow_dispatch
+env:
+  ADDONFULL: Blender fSpy
+  ADDONNAME: blender-fspy
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Extracting Version
+        run: echo "ADDONVER=$(grep -oP '^version *= *\"?\K[0-9|\.]+' blender_manifest.toml)" >> $GITHUB_ENV
+        working-directory: ./fspy_blender_ng
+      - name: Building Addon
+        run: zip -9 -ll -Z bzip2 "../${ADDONNAME}-${ADDONVER}.zip" __init__.py fspy.py fspy_importer.py fspy_panel.py fspy_properties.py blender_manifest.toml
+        working-directory: ./fspy_blender_ng
+      - name: Draft Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{env.ADDONFULL}} ${{env.ADDONVER}}
+          tag_name: v${{env.ADDONVER}}
+          prerelease: false
+          draft: true
+          files: ${{env.ADDONNAME}}-${{env.ADDONVER}}.zip
